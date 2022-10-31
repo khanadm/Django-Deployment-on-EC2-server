@@ -53,7 +53,7 @@ If you are using Django with Python 3, type:
 - Next, create a database user for our project. Make sure to select a secure password
 
    ```sh
-   CREATE USER myprojectuser WITH PASSWORD 'password'
+   CREATE USER postgres WITH PASSWORD '123456'
    ```
   
 - Now, we can give our new user access to administer our new database
@@ -92,7 +92,206 @@ If you are using Django with Python 3, type:
 
 ---
 
-### Create a Django app and deploy it on the server with Nginx.
+### Create a Django app and deploy it on the server with Nginx & Attach Domain to it
+
+Create and move into a directory where we can keep our project files.
+
+```sh
+mkdir data
+``` 
+
+```sh
+cd data
+```
+
+Activate you virtual enviroment 
+
+```sh
+source myvenv/bin/activate
+```
+
+With your virtual environment active, install Django, Gunicorn, and the psycopg2 PostgreSQL adaptor with the local instance of pip:
+
+```sh
+pip install django gunicorn psycopg2
+```
+
+Now create a django project in the project directory using 
+
+```sh
+django-admin.py startproject useraccount
+```
+
+-  Adjust the Project Settings
+-  
+
+  We have to make changes in setting.py file. In ALLOWED_HOSTS section we have to write the server's address or domain names may be used to connect to      Django app.
+  
+
+![allowed host in setting.py](https://user-images.githubusercontent.com/106643382/198976359-7d1f5fc0-ecc5-46dd-a42d-f5090418ea6d.png "allowed host in setting.py")
+
+
+Next in DATABASES section change the setting with postgreSQL database information. We need to tell Django to use the psycopg2 adapter. Give database name, the database username, the database user’s password, and then specify that the database is located on the local computer.
+
+
+![Database information](https://user-images.githubusercontent.com/106643382/198979509-65f34a03-9025-4678-9958-57c947126a3c.png "Database information")
+
+Complete Initial Project Setup
+
+Now, we can migrate the initial database schema to our Postgres database using the management script:
+
+```sh
+useraccount/manage.py makemigrations
+```
+```sh
+useraccount/manage.py migrate
+```
+Create an exception for port 8000 by typing
+
+```sh
+sudo ufw allow 8000
+```
+
+Finally, you can test our your project by starting up the Django development server with this command
+
+```sh
+useraccount/manage.py runserver 0.0.0.0:8000
+```
+![sample login page](https://user-images.githubusercontent.com/106643382/198988099-407c2208-fb51-4b01-8e52-4ac565e5634b.png "sample login page")
+
+We’re now finished configuring our Django application. We can back out of our virtual environment by typing
+
+```sh
+deactivate
+```
+
+Create a Gunicorn systemd Service File
+
+```sh
+sudo vim /etc/systemd/system/gunicorn.service
+```
+![gunicorn service file](https://user-images.githubusercontent.com/106643382/198989048-ad3249fd-0a06-4d35-a30c-e4aca3a7ad0e.png "gunicorn service file")
+
+
+Create a Gunicorn systemd Shocket File In this location.
+
+```sh
+sudo vim /etc/systemd/system/gunicorn.socket
+```
+
+![Shocket file](https://user-images.githubusercontent.com/106643382/199003079-010a23e9-68a7-4a6e-a452-fedb1c0e45d4.png "Shocket file")
+
+
+We can now start the Gunicorn service & socket file we created and enable it so that it starts at boot
+
+```sh
+sudo systemctl start gunicorn
+```
+
+```sh
+sudo systemctl enable gunicorn
+```
+
+Check the status of the process to find out whether it was able to start
+
+```sh
+sudo systemctl status gunicorn
+```
+
+![gunicorn service status](https://user-images.githubusercontent.com/106643382/198992762-b93b4b90-d129-42f4-af13-c7e666b68a9e.png "gunicorn service status")
+
+
+
+```sh
+sudo systemctl start gunicorn.socket
+```
+
+```sh
+sudo systemctl enable gunicorn.socket
+```
+
+```sh
+sudo systemctl status gunicorn.socket
+```
+
+![Screenshot from 2022-10-31 17-46-56](https://user-images.githubusercontent.com/106643382/199006019-12da07c6-47fd-4660-acb6-d5dadab25eef.png)
+
+
+I have made a deamon service file because after reboot of application it will work smoothly.
+ 
+ In this location 
+ 
+```sh
+sudo /lib/systemd/system
+```
+
+```sh
+sudo vim myscriptlogin.service
+```
+
+![Shocket file](https://user-images.githubusercontent.com/106643382/198991205-19d8b868-aa13-4f09-810e-1cfede41c1f4.png "Shocket file")
+
+```sh
+sudo systemctl start myscriptlogin.service
+```
+
+```sh
+sudo systemctl enable myscriptlogin.service
+```
+
+```sh
+sudo systemctl status myscriptlogin.service
+```
+
+![deamon status](https://user-images.githubusercontent.com/106643382/198993629-134f9e79-f590-416b-82c1-30f94dec7a57.png "deamon status")
+
+If you make changes to the /etc/systemd/system/gunicorn.service file, reload the daemon to reread the service definition and restart the Gunicorn process by typing:
+
+```sh
+sudo systemctl daemon-reload
+```
+
+```sh
+sudo systemctl restart gunicorn
+```
+
+#### Configuring Nginx as a reverse proxy
+
+Create a configuration file for Nginx using the following command
+
+```sh
+sudo vim /etc/nginx/sites-available/mydata
+```
+
+![nginx setup proxy](https://user-images.githubusercontent.com/106643382/199008133-dbef8630-ab5f-4431-b390-7438daa5feb5.png "nginx setup proxy")
+
+Finally, we’ll create a location / {} block to match all other requests. Inside of this location, we’ll include the standard proxy_params file included with the Nginx installation and then we will pass the traffic to the socket that our Gunicorn process created:
+
+
+Activate the configuration using the following command
+
+```sh
+sudo ln -s /etc/nginx/sites-available/mydata etc/nginx/sites-enabled/
+```
+
+Test your Nginx configuration for syntax errors by typing:
+
+```sh
+sudo nginx -t
+```
+
+If no errors are reported, go ahead and restart Nginx by typing:
+
+```sh
+sudo systemctl restart nginx
+```
+
+
+
+
+
+
+
 
 
 
