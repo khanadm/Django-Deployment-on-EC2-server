@@ -214,7 +214,7 @@ sudo systemctl enable gunicorn.socket
 sudo systemctl status gunicorn.socket
 ```
 
-![Screenshot from 2022-10-31 17-46-56](https://user-images.githubusercontent.com/106643382/199006019-12da07c6-47fd-4660-acb6-d5dadab25eef.png)
+![Status gunicorn socket](https://user-images.githubusercontent.com/106643382/199006019-12da07c6-47fd-4660-acb6-d5dadab25eef.png "Status gunicorn socket")
 
 
 I have made a deamon service file because after reboot of application it will work smoothly.
@@ -229,7 +229,7 @@ sudo /lib/systemd/system
 sudo vim myscriptlogin.service
 ```
 
-![Shocket file](https://user-images.githubusercontent.com/106643382/198991205-19d8b868-aa13-4f09-810e-1cfede41c1f4.png "Shocket file")
+![daemon file](https://user-images.githubusercontent.com/106643382/198991205-19d8b868-aa13-4f09-810e-1cfede41c1f4.png "daemon file")
 
 ```sh
 sudo systemctl start myscriptlogin.service
