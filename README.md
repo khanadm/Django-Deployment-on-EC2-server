@@ -122,8 +122,8 @@ Now create a django project in the project directory using
 django-admin.py startproject useraccount
 ```
 
--  Adjust the Project Settings
--  
+-  Adjust the Project Settings.
+
 
   We have to make changes in setting.py file. In ALLOWED_HOSTS section we have to write the server's address or domain names may be used to connect to      Django app.
   
@@ -217,7 +217,7 @@ sudo systemctl status gunicorn.socket
 ![Status gunicorn socket](https://user-images.githubusercontent.com/106643382/199006019-12da07c6-47fd-4660-acb6-d5dadab25eef.png "Status gunicorn socket")
 
 
-I have made a deamon service file because after reboot of application it will work smoothly.
+I have made a daemon service file because after reboot of application it will work smoothly.
  
  In this location 
  
