@@ -94,7 +94,7 @@ If you are using Django with Python 3, type:
 
 ### Create a Django app and deploy it on the server with Nginx & Attach Domain to it
 
-Create and move into a directory where we can keep our project files.
+- Create and move into a directory where we can keep our project files.
 
 ```sh
 mkdir data
@@ -104,7 +104,7 @@ mkdir data
 cd data
 ```
 
-Activate you virtual enviroment 
+ Activate you virtual enviroment 
 
 ```sh
 source myvenv/bin/activate
