@@ -37,7 +37,11 @@ If you are using Django with Python 3, type:
    
    
  - This will install pip, the Python development files needed to build Gunicorn later, the Postgres database system and the libraries needed to              interact  with it, and the Nginx web server.
- 
+
+```sh
+sudo apt-get install python3-pip python3-dev libpq-dev postgresql postgresql-contrib nginx
+```
+
 - Log into an interactive Postgres session by typing:
 
   ```sh
@@ -67,13 +71,7 @@ If you are using Django with Python 3, type:
   ```sh
   psql -V
   ```
-
-
-  ```sh
-  sudo apt-get install python3-pip python3-dev libpq-dev postgresql postgresql-contrib nginx
-  ```
-     
-
+  
 - Upgrade pip and install the package by typing:
 
 
@@ -110,10 +108,10 @@ cd data
 source myvenv/bin/activate
 ```
 
-With your virtual environment active, install Django, Gunicorn, and the psycopg2 PostgreSQL adaptor with the local instance of pip:
+With your virtual environment active, install Django, Gunicorn.
 
 ```sh
-pip install django gunicorn psycopg2
+pip install django gunicorn
 ```
 
 Now create a django project in the project directory using 
