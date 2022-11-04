@@ -131,7 +131,7 @@ django-admin.py startproject useraccount
 ![allowed host in setting.py](https://user-images.githubusercontent.com/106643382/198976359-7d1f5fc0-ecc5-46dd-a42d-f5090418ea6d.png "allowed host in setting.py")
 
 
-Next in DATABASES section change the setting with postgreSQL database information. We need to tell Django to use the psycopg2 adapter. Give database name, the database username, the database user’s password, and then specify that the database is located on the local computer.
+Next in DATABASES section change the setting with postgreSQL database information. We need to tell Django to use the psycopg2 adapter. Give database name, the database username, the database user’s password.
 
 
 ![Database information](https://user-images.githubusercontent.com/106643382/198979509-65f34a03-9025-4678-9958-57c947126a3c.png "Database information")
@@ -145,11 +145,6 @@ useraccount/manage.py makemigrations
 ```
 ```sh
 useraccount/manage.py migrate
-```
-Create an exception for port 8000 by typing
-
-```sh
-sudo ufw allow 8000
 ```
 
 Finally, you can test our your project by starting up the Django development server with this command
@@ -216,35 +211,6 @@ sudo systemctl status gunicorn.socket
 
 ![Status gunicorn socket](https://user-images.githubusercontent.com/106643382/199006019-12da07c6-47fd-4660-acb6-d5dadab25eef.png "Status gunicorn socket")
 
-
-I have made a daemon service file because after reboot of application it will work smoothly.
- 
- In this location 
- 
-```sh
-sudo /lib/systemd/system
-```
-
-```sh
-sudo vim myscriptlogin.service
-```
-
-![daemon file](https://user-images.githubusercontent.com/106643382/198991205-19d8b868-aa13-4f09-810e-1cfede41c1f4.png "daemon file")
-
-```sh
-sudo systemctl start myscriptlogin.service
-```
-
-```sh
-sudo systemctl enable myscriptlogin.service
-```
-
-```sh
-sudo systemctl status myscriptlogin.service
-```
-
-![deamon status](https://user-images.githubusercontent.com/106643382/198993629-134f9e79-f590-416b-82c1-30f94dec7a57.png "deamon status")
-
 If you make changes to the /etc/systemd/system/gunicorn.service file, reload the daemon to reread the service definition and restart the Gunicorn process by typing:
 
 ```sh
@@ -257,7 +223,7 @@ sudo systemctl restart gunicorn
 
 #### Configuring Nginx as a reverse proxy
 
-Create a configuration file for Nginx using the following command
+Create a configuration file for Nginx using the following command.
 
 ```sh
 sudo vim /etc/nginx/sites-available/mydata
