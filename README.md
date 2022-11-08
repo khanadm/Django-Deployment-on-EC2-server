@@ -19,7 +19,6 @@
   - Click the Launch instances button.
   - To launch an EC2 instance, a few details are required, i.e., instance name, OS image (AMI), instance type, etc.
   - Select a key pair to attach with the instance to log in with that key.
-  - Click the Launch instance button
   - Take the public IP from the EC2 dashboard and use it to login inside the instance using ssh.
   - Finally, it will be logged in successfully if everything is configured correctly.
 
