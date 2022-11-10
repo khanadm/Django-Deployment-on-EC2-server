@@ -226,7 +226,7 @@ Create a configuration file for Nginx using the following command.
 sudo vim /etc/nginx/sites-available/mydata
 ```
 
-![nginx setup proxy](https://user-images.githubusercontent.com/106643382/199008133-dbef8630-ab5f-4431-b390-7438daa5feb5.png "nginx setup proxy")
+![nginx setup proxy](/home/rovi91/Pictures/Screenshot from 2022-11-10 10-42-17.png "nginx setup proxy")
 
 Finally, we’ll create a location / {} block to match all other requests. Inside of this location, we’ll include the standard proxy_params file included with the Nginx installation and then we will pass the traffic to the socket that our Gunicorn process created:
 
